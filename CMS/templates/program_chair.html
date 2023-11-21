@@ -61,7 +61,177 @@ th, td {
           </button>
         </div>
        </div>
+
+{% comment %} edit conference {% endcomment %}
+<div class="modal fade dark-modal" id="myModal1" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:#a70000;color:#fff;">
+        <h5 class="modal-title" style="margin-left:10px;" id="exampleModalLabel">Edit Conference Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="cl"></button>
+      </div>
+      <div class="modal-body" style="overflow-x:hidden;">
+        <form enctype="multipart/form-data"  method='POST' action="/conference/{{conference.id}}/programChair/editConference/" >
+        {% csrf_token %}
+        <div class="row" style="margin-top:10px;">
+          <div class="form-floating" style=" text-align:center; margin-left:20px;">
+            <input type="text" name="title" class="form-control" id="floatingInput1" placeholder="Firstname" style="width: 95%" required value="{{conference.conferenceTitle}}" disabled>
+            <label for="floatingInput1" style="margin-left: 10px;">Title</label>                            
+          </div>
+        </div>
+        <div class="row" style="margin-top:10px;">
+          <div class="form-floating" style=" text-align:center; margin-left:20px;">
+            <input type="text" name="institute" class="form-control" id="floatingInput2" placeholder="Firstname" style="width: 95%" required value="{{conference.organizing_institute}}" disabled>
+            <label for="floatingInput2" style="margin-left: 10px;">Organizing Institute</label>                            
+          </div>
+        </div>
+        <div class="row" style="margin-top:10px;">
+          <div class="col">
+            <div class="form-floating" style=" text-align:center; margin-left:20px;">
+              <textarea type="text" name="aboutInstitute" class="form-control" id="floatingInput3" placeholder="Firstname" style="min-height: 130px; width: 95%;" >{{conference.institute_details}}</textarea>
+              <label for="floatingInput3">About Institute</label>                            
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-floating" style=" text-align:center; margin-left:20px;">
+              <textarea type="text" name="aboutConference" class="form-control" id="floatingInput4" placeholder="Firstname" style="min-height: 130px; width: 95%;">{{conference.about_conference}}</textarea>
+              <label for="floatingInput4">About Conference</label>                            
+            </div>
+          </div>
+        </div>
+        <strong><label style="margin-bottom: 0%; margin-top: 50px;margin-left:20px;color:DodgerBlue;">Important Dates</label></strong>
+       
+        <div class="row" style="margin-top:10px;">
+          <div class="col">
+            <div class="form-floating" style=" text-align:center; margin-left:20px;">
+              <input type="date" name="submissionDeadline" class="form-control" id="floatingInput5" placeholder="Firstname" style="width: fit-content; " value="{{conference.submission_deadline|date:"Y-m-d"}}" required>
+              <label for="floatingInput5">Submission Deadline</label>                            
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-floating" style=" text-align:center; margin-left:20px;">
+              <input type="date" name="notificationOfAcceptance" class="form-control" id="floatingInput6" placeholder="Firstname" style="width: fit-content;"  value="{{conference.notification_of_acceptance|date:"Y-m-d"}}" required>
+              <label for="floatingInput6">Notification of Acceptance</label>                            
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-floating" style=" text-align:center; margin-left:20px;">
+              <input type="date" name="registrationDeadline" class="form-control" id="floatingInput7" placeholder="Firstname" style="width: fit-content;" value="{{conference.registration_deadline|date:"Y-m-d"}}" required>
+              <label for="floatingInput7">Registration Deadline</label>                            
+            </div>
+          </div>
+        </div>
+        <div class="row" style="margin-top:10px;">
+          <div class="col-auto">
+            <div class="form-floating" style=" text-align:center; margin-left:20px;">
+            <input type="date" name="cameraReadyPapers" class="form-control" id="floatingInput8" placeholder="Firstname" style="width: fit-content;" value="{{conference.camera_ready_papers|date:"Y-m-d"}}" required>
+            <label for="floatingInput8">Camera Ready Papers</label>                            
+          </div>
+          </div>
+          <div class="col-auto">
+            <div class="form-floating" style=" text-align:center; margin-left:20px;">
+            <input type="date" name="conferenceDate" class="form-control" id="floatingInput9" placeholder="Firstname" style="width: fit-content;" required value="{{conference.conference_date|date:"Y-m-d"}}">
+            <label for="floatingInput9">Conference Date</label>                            
+          </div>
+          </div>
+        </div>
+        <div class="row" style="margin-top: 20px;">
+          <div class="form-floating" style=" text-align:center; margin-left:20px;">
+            <input type="text" name="venue" class="form-control" id="floatingInput10" placeholder="Firstname" style="width: 95%;" value="{{conference.conference_venue}}">
+            <label for="floatingInput10" style="margin-left: 10px;">Conference Venue</label>                            
+          </div>
+        </div>
+        
+        <strong><label style="margin-bottom: 0%; margin-top: 50px;margin-left:20px;color:DodgerBlue;">Committees</label></strong>
+        <center><label style="margin-bottom: 5px;">Add images containing details of various committees</label></center>
+        <div class="row" style="margin-top: 50px; margin-bottom: 20px;">
+          <div class="form-floating" style=" text-align:center; margin-left:20px;">
+            <input type="file" name="committeeImages" class="form-control" id="floatingInput17" placeholder="Firstname" style="width: 95%" multiple >
+            <label for="floatingInput17" style="margin-left: 10px;">Committee details</label>                            
+          </div>
+        </div>
+        <strong><label style="margin-bottom: 0%; margin-top: 50px;margin-left:20px;color:DodgerBlue;">Images</label></strong>
+        <div class="row" style="margin-top: 50px; margin-bottom: 20px;">
+          <div class="form-floating" style=" text-align:center; margin-left:20px;">
+            <input type="file" name="conferenceImages" class="form-control" id="floatingInput17" placeholder="Firstname" style="width: 95%" multiple >
+            <label for="floatingInput17" style="margin-left: 10px;">Images related to Conference and Institute</label>                            
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Edit</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+{% comment %} add track {% endcomment %}
+<div class="modal fade dark-modal" id="myModal2" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:#a70000;color:#fff;">
+        <h5 class="modal-title" style="margin-left:10px;" id="exampleModalLabel">Track Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="cl"></button>
+      </div>
+      <form method="POST" action="/conference/{{conference.id}}/programChair/addTrack/" >
+      {% csrf_token %}
+        <div class="modal-body" style="overflow-x:hidden;">
+          <center>
+            <div class="form-floating" style=" text-align:center; margin-left:20px;margin-bottom:10px;">
+                <input type="text" name="title" class="form-control" id="floatingInput15" placeholder="Firstname" style="width: 95%" required>
+                <label for="floatingInput15">Track Name</label>                            
+            </div>
+            <div class="form-floating" style=" text-align:center; margin-left:20px;margin-bottom:10px;">
+                <textarea type="text" name="subDomains" class="form-control" id="floatingInput15" placeholder="Firstname" style="width: 95%;min-height:100px;" required></textarea>
+                <label for="floatingInput15">Add Sub-domains in proper order</label>                            
+            </div>
+          </center>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Add Track</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{% comment %} invite reviewer {% endcomment %}
+<div class="modal fade dark-modal" id="myModal3" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:#a70000;color:#fff;">
+        <h5 class="modal-title" style="margin-left:10px;" id="exampleModalLabel">Invite Reviewer</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="cl"></button>
+      </div>
+      <form method="POST" action="/conference/{{conference.id}}/programChair/inviteReviewer/" >
+      {% csrf_token %}
+        <div class="modal-body" style="overflow-x:hidden;">
+          <center>
+            <div class="form-floating" style=" text-align:center; margin-left:20px;margin-bottom:10px;">
+                <input type="text" name="reviewer_email" class="form-control" id="floatingInput15" placeholder="Firstname" style="width: 95%" required>
+                <label for="floatingInput15">Enter email-id of the reviewer to be added</label>                            
+            </div>
+            An invitation mail will be sent to the specified mail-id
+          </center>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
     </div>  
+
+
+
+
+
     <div class="main-body" style="display:flex;background-color:#f2f2f2;margin-left:auto;margin-right:auto;width:fit-content;margin-bottom:30px;align-items:center;">
         <div class="tab" style="margin-top:30px;background-color:white;max-width:fit-content;flex:auto;height: max-content;">
             <ul class="nav flex-column">
@@ -99,11 +269,19 @@ th, td {
                 <tr>
                   <th class="title-column">&nbsp;&nbsp;{{paper.papertitle}}</th>
                   <th>
-                  <button class="btn btn-primary" style="border-radius:50%" type="button"  data-bs-toggle="modal" data-bs-target="#viewpaperdata{{paper.papertitle}}">
-                    <i class="fas fa-info" ></i>
+                    <button class="btn btn-primary" style="border-radius:50%" type="button" >
+                     <a class="  text-light fas fa-file" href="{{paper.id}}" target="blank"></a>
+                    </button>
+                  </th>
+                  {% comment %} pdf view {% endcomment %}
+                  <th>
+                  <button class="btn btn-primary" style="border-radius:50%" type="button"  data-bs-toggle="modal" data-bs-target="#viewpaperdata{{paper.id}}">
+                    <i class="fas fa-info" > </i>
                   </button>
                   
-                  <div class="modal fade" id="viewpaperdata{{paper.papertitle}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                
+                  
+                  <div class="modal fade" id="viewpaperdata{{paper.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                      <div class="modal-dialog modal-dialog-centered">
                        <div class="modal-content">
                          <div class="modal-header">
@@ -148,7 +326,7 @@ th, td {
                               
                             </tr>
                           </table>
-                          
+                        
                           <div class="row">
                            <form method="POST" action="paper={{paper.id}}/">
                            {% csrf_token %}
@@ -166,6 +344,8 @@ th, td {
                               <button type="submit" class="btn btn-primary">Confirm Reviewer</button>
                             </div>
                           </div>
+
+
                           {% elif paper.has_review %}
                           <center>
                           <button type="button" style="margin-top:5px;" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewreview{{paper.id}}">
@@ -182,12 +362,14 @@ th, td {
                           </div>
                         
                          </div>
+                       
                          <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                          </div>
                        </div>
                      </div>
                   </div>
+              
                   <div class="modal fade" id="viewreview{{paper.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                       <div class="modal-content">
@@ -274,8 +456,8 @@ th, td {
                     <a style="min-height:60px;text-align: left;font-size: 20px;border-left: 5px solid red;font-weight:bold;font-size:30px;color:red;display:block;margin-right:1opx;">&nbsp;Authors</a>
                     <div class="text" style="margin:15px;">
                         {% for author in authors %}
-                          <tr>
-                            <td>{{ author.user.first_name }} {{ author.user.last_name }}</td>
+                          <tr>                            
+                            <td> {{author.user.id}}-{{ author.user.first_name }} {{ author.user.last_name }}</td>
                             <button class="btn btn-primary" type="button"  data-bs-toggle="modal" data-bs-target="#viewauthordata">
                               Info
                             </button>
@@ -373,169 +555,7 @@ th, td {
       </div>
    </div>
 
-    {% comment %} Modal to edit conference {% endcomment %}
-    <div class="modal fade dark-modal" id="myModal1" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-scrollable">
-          <div class="modal-content">
-            <div class="modal-header" style="background-color:#a70000;color:#fff;">
-              <h5 class="modal-title" style="margin-left:10px;" id="exampleModalLabel">Edit Conference Details</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="cl"></button>
-            </div>
-            <div class="modal-body" style="overflow-x:hidden;">
-              <form enctype="multipart/form-data"  method='POST' action="/conference/{{conference.id}}/programChair/editConference/" >
-              {% csrf_token %}
-              <div class="row" style="margin-top:10px;">
-                <div class="form-floating" style=" text-align:center; margin-left:20px;">
-                  <input type="text" name="title" class="form-control" id="floatingInput1" placeholder="Firstname" style="width: 95%" required value="{{conference.conferenceTitle}}" disabled>
-                  <label for="floatingInput1" style="margin-left: 10px;">Title</label>                            
-                </div>
-              </div>
-              <div class="row" style="margin-top:10px;">
-                <div class="form-floating" style=" text-align:center; margin-left:20px;">
-                  <input type="text" name="institute" class="form-control" id="floatingInput2" placeholder="Firstname" style="width: 95%" required value="{{conference.organizing_institute}}" disabled>
-                  <label for="floatingInput2" style="margin-left: 10px;">Organizing Institute</label>                            
-                </div>
-              </div>
-              <div class="row" style="margin-top:10px;">
-                <div class="col">
-                  <div class="form-floating" style=" text-align:center; margin-left:20px;">
-                    <textarea type="text" name="aboutInstitute" class="form-control" id="floatingInput3" placeholder="Firstname" style="min-height: 130px; width: 95%;" >{{conference.institute_details}}</textarea>
-                    <label for="floatingInput3">About Institute</label>                            
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="form-floating" style=" text-align:center; margin-left:20px;">
-                    <textarea type="text" name="aboutConference" class="form-control" id="floatingInput4" placeholder="Firstname" style="min-height: 130px; width: 95%;">{{conference.about_conference}}</textarea>
-                    <label for="floatingInput4">About Conference</label>                            
-                  </div>
-                </div>
-              </div>
-              <strong><label style="margin-bottom: 0%; margin-top: 50px;margin-left:20px;color:DodgerBlue;">Important Dates</label></strong>
-             
-              <div class="row" style="margin-top:10px;">
-                <div class="col">
-                  <div class="form-floating" style=" text-align:center; margin-left:20px;">
-                    <input type="date" name="submissionDeadline" class="form-control" id="floatingInput5" placeholder="Firstname" style="width: fit-content; " value="{{conference.submission_deadline|date:"Y-m-d"}}" required>
-                    <label for="floatingInput5">Submission Deadline</label>                            
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="form-floating" style=" text-align:center; margin-left:20px;">
-                    <input type="date" name="notificationOfAcceptance" class="form-control" id="floatingInput6" placeholder="Firstname" style="width: fit-content;"  value="{{conference.notification_of_acceptance|date:"Y-m-d"}}" required>
-                    <label for="floatingInput6">Notification of Acceptance</label>                            
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="form-floating" style=" text-align:center; margin-left:20px;">
-                    <input type="date" name="registrationDeadline" class="form-control" id="floatingInput7" placeholder="Firstname" style="width: fit-content;" value="{{conference.registration_deadline|date:"Y-m-d"}}" required>
-                    <label for="floatingInput7">Registration Deadline</label>                            
-                  </div>
-                </div>
-              </div>
-              <div class="row" style="margin-top:10px;">
-                <div class="col-auto">
-                  <div class="form-floating" style=" text-align:center; margin-left:20px;">
-                  <input type="date" name="cameraReadyPapers" class="form-control" id="floatingInput8" placeholder="Firstname" style="width: fit-content;" value="{{conference.camera_ready_papers|date:"Y-m-d"}}" required>
-                  <label for="floatingInput8">Camera Ready Papers</label>                            
-                </div>
-                </div>
-                <div class="col-auto">
-                  <div class="form-floating" style=" text-align:center; margin-left:20px;">
-                  <input type="date" name="conferenceDate" class="form-control" id="floatingInput9" placeholder="Firstname" style="width: fit-content;" required value="{{conference.conference_date|date:"Y-m-d"}}">
-                  <label for="floatingInput9">Conference Date</label>                            
-                </div>
-                </div>
-              </div>
-              <div class="row" style="margin-top: 20px;">
-                <div class="form-floating" style=" text-align:center; margin-left:20px;">
-                  <input type="text" name="venue" class="form-control" id="floatingInput10" placeholder="Firstname" style="width: 95%;" value="{{conference.conference_venue}}">
-                  <label for="floatingInput10" style="margin-left: 10px;">Conference Venue</label>                            
-                </div>
-              </div>
-              
-              <strong><label style="margin-bottom: 0%; margin-top: 50px;margin-left:20px;color:DodgerBlue;">Committees</label></strong>
-              <center><label style="margin-bottom: 5px;">Add images containing details of various committees</label></center>
-              <div class="row" style="margin-top: 50px; margin-bottom: 20px;">
-                <div class="form-floating" style=" text-align:center; margin-left:20px;">
-                  <input type="file" name="committeeImages" class="form-control" id="floatingInput17" placeholder="Firstname" style="width: 95%" multiple >
-                  <label for="floatingInput17" style="margin-left: 10px;">Committee details</label>                            
-                </div>
-              </div>
-              <strong><label style="margin-bottom: 0%; margin-top: 50px;margin-left:20px;color:DodgerBlue;">Images</label></strong>
-              <div class="row" style="margin-top: 50px; margin-bottom: 20px;">
-                <div class="form-floating" style=" text-align:center; margin-left:20px;">
-                  <input type="file" name="conferenceImages" class="form-control" id="floatingInput17" placeholder="Firstname" style="width: 95%" multiple >
-                  <label for="floatingInput17" style="margin-left: 10px;">Images related to Conference and Institute</label>                            
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Edit</button>
-            </div>
-          </form>
-          </div>
-        </div>
-    </div>
 
-    {% comment %} Modal to add Track {% endcomment %}
-    <div class="modal fade dark-modal" id="myModal2" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-scrollable">
-          <div class="modal-content">
-            <div class="modal-header" style="background-color:#a70000;color:#fff;">
-              <h5 class="modal-title" style="margin-left:10px;" id="exampleModalLabel">Track Details</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="cl"></button>
-            </div>
-            <form method="POST" action="/conference/{{conference.id}}/programChair/addTrack/" >
-            {% csrf_token %}
-              <div class="modal-body" style="overflow-x:hidden;">
-                <center>
-                  <div class="form-floating" style=" text-align:center; margin-left:20px;margin-bottom:10px;">
-                      <input type="text" name="title" class="form-control" id="floatingInput15" placeholder="Firstname" style="width: 95%" required>
-                      <label for="floatingInput15">Track Name</label>                            
-                  </div>
-                  <div class="form-floating" style=" text-align:center; margin-left:20px;margin-bottom:10px;">
-                      <textarea type="text" name="subDomains" class="form-control" id="floatingInput15" placeholder="Firstname" style="width: 95%;min-height:100px;" required></textarea>
-                      <label for="floatingInput15">Add Sub-domains in proper order</label>                            
-                  </div>
-                </center>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Add Track</button>
-              </div>
-            </form>
-          </div>
-        </div>
-    </div>
-
-    {% comment %} Modal to invite reviewer {% endcomment %}
-    <div class="modal fade dark-modal" id="myModal3" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-scrollable">
-        <div class="modal-content">
-          <div class="modal-header" style="background-color:#a70000;color:#fff;">
-            <h5 class="modal-title" style="margin-left:10px;" id="exampleModalLabel">Invite Reviewer</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="cl"></button>
-          </div>
-          <form method="POST" action="/conference/{{conference.id}}/programChair/inviteReviewer/" >
-          {% csrf_token %}
-            <div class="modal-body" style="overflow-x:hidden;">
-              <center>
-                <div class="form-floating" style=" text-align:center; margin-left:20px;margin-bottom:10px;">
-                    <input type="text" name="reviewer_email" class="form-control" id="floatingInput15" placeholder="Firstname" style="width: 95%" required>
-                    <label for="floatingInput15">Enter email-id of the reviewer to be added</label>                            
-                </div>
-                An invitation mail will be sent to the specified mail-id
-              </center>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-          </form>
-        </div>
-      </div>
-  </div>
 {% endblock content%}
 
 {% block additional-script %}

@@ -240,9 +240,21 @@
         </div>
         <div id="committee" class="tabcontent" style="width:600px;">
             committee
+
+            {% for og in org %}
+            <ul>
+                <img style="width:100%;height:auto"  src={{ og.committee_image.url}}>
+            </ul>
+        {% endfor %}
+
         </div>
         <div id="photos" class="tabcontent" style="width:600px;">
              Images
+             {%for image in img%}
+             <ul>
+               <img style="width:100%;height:auto"  src={{ image.conference_image.url}}>
+             </ul>
+             {% endfor %}">
         </div>
        </div>
       </div>

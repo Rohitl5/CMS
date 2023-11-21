@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <header  style="background-color:red">
+
+{% comment %} image of kj somaiya  {% endcomment %}
+     <div style="display:flex;max-width:fit-content; ">
+        <h1 style="flex:50%">K J SOMAIYA INSTITUE OF TECHNOLOGY</h1>
+    
+     </div>
+
+    </header>
+
+    <main style="width:80%; margin:auto; ">
+       <p> Congratulation ! <b>Mr. {{paper.authors.user.first_name}} {{paper.authors.user.last_name}}</b> to participate in the conference
+        <b> {{conference.conferenceTitle}} </b><br>
+        <p> The paper you submitted named as <b><i>{{paper.papertitle}}</i></b> is highly appreciated , your efforts are truly marvellous.<br>
+            The abstract of your content is as follows :
+            <main>
+    
+  
+
+                <!-- The summary table contains the subtotal, tax and total amount. -->
+                <table style=" color:black">
+                                     
+                  <tr>
+                    <td> Title </td>
+                    <td>{{paper.papertitle}}</td>
+                    
+                  </tr>
+                  <tr>
+                    <td>Author</td>
+                    <td>
+                     {{paper.authors.user.first_name}} {{paper.authors.user.last_name}}
+                      {% if paper.otherauthors %}
+                        , {{ paper.otherauthors }}
+                      {% endif %}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Abstract </td>
+                    <td>{{paper.abstract}}</td>
+                    
+                  </tr>
+                  <tr>
+                    <td>Track </td>
+                    <td>{{paper.track.title}}</td>
+                    
+                  </tr>
+                  <tr>
+                    <td>Keywords </td>
+                    <td>{{paper.keywords}}</td>
+                    
+                  </tr>
+                  <tr>
+                    <td>Submission Date </td>
+                    <td>{{paper.submissionDate}}</td>
+                  
+                  </tr>
+                </table>
+                <div class="main">
+                  {{extension}}
+                  {% if x %}
+                    <iframe style="width:80%;height:auto;padding:10%"   src=" {{paper.file.url}}" >  </iframe> 
+                    {%endif%}
+                {% if not x %}
+                <img style="width:80%;height:auto;padding:10%"  src={{paper.file.url}}>
+                {% endif%}
+               
+               
+              
+                   
+                </div>
+               
+          
+             
+          
+              
+          
+           
+    </main>
+
+    <aside>
+        <!-- Before the terms and conditions we will add another blue divider line with the help of the HR tag. -->
+        <hr />
+        <div>
+          <div class="about-container-main" style="padding: 75px 0px 30px 0px ; display:flex;max-width:fit-content;">
+              <div class="company-name" style="flex: 25%; font-family: 'Poppins', sans-serif; color: aliceblue;max-width:fit-content;">
+                <div class="contact" style="  padding-left: 25px;
+                padding-top: 10px;
+                color:#000;
+                max-width:fit-content;">
+                Contact-us :<br>
+                91-22-24061408<br>
+                91-22-24061403<br>
+                info.tech@somaiya.edu
+                </div>
+              </div>
+              <div class="company-details" style="flex:75%;
+              font-family: 'Poppins', sans-serif;
+              color: #000;padding: 20px;
+              letter-spacing: 1px;
+              max-width:fit-content;">
+                <img src="https://tnpportal.kjsieit.in/static/img/logo2.jpg" style="width:100px;">
+              </div>
+            </div>
+          <div>
+            <center>
+                <p style="padding-top: 20px;letter-spacing: 1px;">
+                &copy; 2023 KJSIT Conference Management System. All rights reserved.
+                </p>
+            </center>
+          </div>
+        </div>
+
+          
+
+      </aside> 
+  
+   
+    </body>
+</html>
+
+       

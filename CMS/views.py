@@ -3,11 +3,15 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import get_user_model
-from django.http import HttpResponseRedirect,HttpResponseForbidden
+from django.http import HttpResponseRedirect,HttpResponseForbidden, HttpResponse
 from .models import Conference,committeeImages,conferenceImages,Track,Author,Reviewer,Paper,Review
 from django.conf import settings
 from django.core.mail import send_mail
 from django.utils import timezone
+import os
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+
 
 
 user=get_user_model()
@@ -50,6 +54,9 @@ def login_view(request):
 def profile(request):
     conferences = Conference.objects.values()
     enrolled=Conference.objects.filter(programChair=request.user).values()
+
+  
+       
     return render(request, 'profile.html',context={"conferences":conferences,"enrolled":enrolled})
 
 @login_required
@@ -75,8 +82,10 @@ def programChair(request,conference_id):
 def conferences(request,conference_id):
     conference = get_object_or_404(Conference, conferenceTitle=conference_id)
     tracks= Track.objects.filter(conference_id=conference.id).all().values()
+    org=committeeImages.objects.filter(conference=conference.id)
+    img=conferenceImages.objects.filter(conference=conference.id) 
 
-    return render(request, 'view_conferences.html',context={"conference":conference,"tracks":tracks})
+    return render(request, 'view_conferences.html',context={"conference":conference,"tracks":tracks,"org":org,"img":img,})
 
 def add_conference(request):
     if user.is_authenticated:
@@ -193,7 +202,14 @@ def inviteReviewer(request,conference_id):
 def author_request(request,conference_id):
     if user.is_authenticated:
           conference= Conference.objects.get(id=conference_id)
-          
+          idd=request.user.email
+          print(request.user.email)
+          auth=Author.objects.all()
+          for a in auth :                            #check if author already exists
+           if(str(idd)==str(a.user)):                
+            return redirect('/conference/'+str(conference_id)+'/author/') 
+           else: 
+            print("doesnot exists")
           subject = 'Request to join as an author'
           message = 'Respected Program Chair,\n'+str(request.user.first_name)+' '+str(request.user.last_name)+' has request to enter "'+str(conference.conferenceTitle)+'"\nAuthor Deatils are:\nEmail- '+str(request.user.email)+'\nProfession- '+str(request.user.profession)+'\nAfiliated to '+str(request.user.afiliation)+' as '+str(request.user.role)+'\nTo add author click on the link: http://127.0.0.1:8000/conference/'+str(conference.id)+'/add_author='+str(request.user.id)+'/\n\nThankyou'
           email_from = settings.EMAIL_HOST_USER
@@ -272,6 +288,9 @@ def reject_paper(request,review_id,conference_id):
 def author(request,conference_id):
     conference = get_object_or_404(Conference, id=conference_id)
     author=Author.objects.get(user=request.user)
+    print(author)
+    paper=Paper.objects.filter(authors=author).all().values()
+    print(paper)
     # is_author=Author.objects.filter(user=request.user,conferences=conference).exists()
     # if is_author:
     tracks= Track.objects.filter(conference_id=conference.id).all().values()
@@ -309,7 +328,7 @@ def author(request,conference_id):
       paper.save()
       return redirect('/conference/'+str(conference_id)+'/author/')
     
-    return render(request, 'authrs-view.html',context={"conference":conference,"tracks":tracks,"uploadedpapers":papers,"reviews":reviews_for_submittedpapers})
+    return render(request, 'authrs-view.html',context={"conference":conference,"tracks":tracks,"uploadedpapers":papers,"reviews":reviews_for_submittedpapers,"paper":paper})
     # else:
     #     # The user is not an author for this conference
     #      return HttpResponseForbidden("You are not authorized as an author in this conference. To join as author select 'join as author' on the conference main page.")
@@ -372,4 +391,32 @@ def assign_reviwer(request,paper_id,conference_id):
             return redirect('/conference/' + str(conference.id) + '/programChair/')
         else:
             return HttpResponseForbidden("Invalid reviewer selection.")
+
+
+
+
+
+
+
+
+
+def displaypdf(request,paper_id,conference_id):
+   conference = Conference.objects.get( id=conference_id)
+   paper=Paper.objects.get(id=paper_id)
+   path=paper.file.url
+   txt=path.split('/',1)
+   pdf_file=txt[1]
+   file_name, file_extension = os.path.splitext(paper.file.url)
+   if(file_extension=='.pdf'):
+       with open(pdf_file, 'rb') as pdf:
+            response = HttpResponse(pdf.read(), content_type='application/pdf')
+            response['Content-Disposition'] = 'inline;filename=mypdf.pdf'
+            return response
+   else:
+        context={"paper":paper,"conference":conference,"file":pdf_file}
+        return render(request,'display.html',context)
+
+
+
+
     
